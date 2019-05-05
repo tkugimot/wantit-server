@@ -6,11 +6,11 @@ info:
   termsOfService: http://example.com/terms/
   contact:
     name: Toshimitsu Kugimoto
-    url: null
-    email: null
+    url: ""
+    email: ""
   license:
     name: Toshimitsu Kugimoto
-    url: null
+    url: ""
 paths:
   '/user':
     post:
