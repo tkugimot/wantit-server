@@ -1,4 +1,4 @@
-swagger: '2.0'
+openapi: 3.0.0
 info:
   version: 1.0.0
   title: WantIt API documents.
@@ -17,47 +17,103 @@ servers:
 paths:
   '/user':
     post:
+      tags:
+        - users
       description: Fetch User Info
       parameters:
         - name: id
           in: path
           description: user id
           required: true
-          type: string
+          schema:
+            type: string
       responses:
         '200':
           description: Success
-          schema:
-            type: object
-            properties:
-              display-name:
-                type: string
-              post_ids:
-                type: array
+          content:
+            application/json:
+              schema:
+                type: object
                 items:
-                  type: number
-              created_at:
-                type: date
-  '/users':
+                  $ref: '#/components/schemas/User'
+                example:
+                  uid: ABCDEFGHIJKLMNOP
+                  dispname: Toshi
+                  created_at: 2019/05/05
+  '/posts':
     post:
-      description: Fetch User Info
-      parameters:
-        - name: id
-          in: path
-          description: user id
-          required: true
-          type: string
+      tags:
+        - posts
+      description: Fetch All Posts by 10
       responses:
         '200':
           description: Success
-          schema:
-            type: object
-            properties:
-              display-name:
-                type: string
-              post_ids:
-                type: array
+          content:
+            application/json:
+              schema:
+                type: object
                 items:
-                  type: number
-              created_at:
-                type: date
+                  $ref: '#/components/schemas/User'
+                example:
+                  id: 1
+                  sentence: I want the App that you can post and share what kind of App you want.
+                  img_url: img.jp
+                  liked_count: 11
+                  tags: [WebApp, iOSApp, AndroidApp]
+                  created_at: 2019/05/05
+                  updated_at: 2019/05/05
+                  uid: ABCDEFHIJKLMNOP
+
+tags:
+  - name: users
+    description: Fetch Users
+  - name: posts
+    description: Fetch Posts
+
+components:
+  schemas: # スキーマオブジェクトの定義
+    User: # モデル名
+      type: object # 型
+      required: # 必須フィールド
+        - uid
+        - dispname
+        - created_at
+      properties:
+        uid: # プロパティ名
+          type: string # 型
+        dispname:
+          type: string
+        created_at:
+          type: string
+
+    Post:
+      type: object
+      required:
+        - id
+        - sentence
+        - img_url
+        - liked_count
+        - tags
+        - created_at
+        - updated_at
+        - uid
+      properties:
+        id:
+          type: number
+        sentence:
+          type: string
+        img_url:
+          type: string
+        liked_count:
+          type: number
+        tags:
+          type: array
+          items:
+            type: string
+        uid:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+
