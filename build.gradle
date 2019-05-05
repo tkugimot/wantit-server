@@ -20,8 +20,22 @@ repositories {
 }
 
 dependencies {
+    // main
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+    implementation 'com.google.firebase:firebase-admin:6.8.0'
+    compile group: 'com.google.cloud', name: 'google-cloud-firestore', version: '1.2.0'
+
+    // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+bootRun {
+    jvmArgs = [
+            '-Dspring.profiles.active=local',
+    ]
+    if (project.hasProperty('jvmArgs')) {
+        jvmArgs = (project.jvmArgs.split("\\s+") as List)
+    }
 }

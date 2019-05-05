@@ -18,7 +18,7 @@ paths:
   '/user/{custom_uid}':
     get:
       tags:
-        - users
+        - user
       description: Fetch User Info
       parameters:
         - name: custom_uid
@@ -45,7 +45,7 @@ paths:
   '/user/{custom_uid}/posts':
     get:
       tags:
-        - users
+        - user
       description: Fetch Posts by User id
       parameters:
         - name: custom_uid
@@ -84,7 +84,7 @@ paths:
   '/user/{custom_uid}/likes':
     get:
       tags:
-        - users
+        - user
       description: Fetch User Info
       parameters:
         - name: custom_uid
@@ -113,7 +113,7 @@ paths:
   '/user/register':
     post:
       tags:
-        - users
+        - user
       description: Register User Info
       parameters:
         - name: jwt_token
@@ -310,7 +310,7 @@ paths:
                   custom_uid: tkugimot
 
 tags:
-  - name: users
+  - name: user
     description: Fetch Users
   - name: posts
     description: Fetch Posts

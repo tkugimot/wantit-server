@@ -28,3 +28,6 @@ HELP.md
 
 ### VS Code ###
 .vscode/
+
+### Firebase ###
+/src/main/resources/serviceAccount.json
