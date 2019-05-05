@@ -15,15 +15,15 @@ servers:
   - url: https://tkugimot.jp
     description: Production Server
 paths:
-  '/user':
+  '/user/{custom_uid}':
     get:
       tags:
         - users
       description: Fetch User Info
       parameters:
-        - name: id
+        - name: custom_uid
           in: path
-          description: user id
+          description: custom_uid
           required: true
           schema:
             type: string
@@ -38,18 +38,19 @@ paths:
                   $ref: '#/components/schemas/User'
                 example:
                   id: 1
-                  uid: ABCDEFGHIJKLMNOP
-                  dispname: Toshi
+                  custom_uid: tkugimot
+                  role: admin
+                  description: I am Web Developer.
                   created_at: 2019/05/05
-  '/user/posts':
+  '/user/{custom_uid}/posts':
     get:
       tags:
         - users
       description: Fetch Posts by User id
       parameters:
-        - name: user_id
+        - name: custom_uid
           in: path
-          description: user id
+          description: custom_uid
           required: true
           schema:
             type: string
@@ -70,7 +71,7 @@ paths:
                     tags: [WebApp, iOSApp, AndroidApp]
                     created_at: 2019/05/05
                     updated_at: 2019/05/05
-                    uid: ABCDEFHIJKLMNOP
+                    custom_uid: tkugimot
                   - id: 2
                     sentence: Ups!
                     img_url: img2.jp
@@ -78,17 +79,17 @@ paths:
                     tags: [WebApp, iOSApp, AndroidApp]
                     created_at: 2019/05/05
                     updated_at: 2019/05/05
-                    uid: ABCDEFHIJKLMNOP
+                    custom_uid: tkugimot
 
-  '/user/likes':
+  '/user/{custom_uid}/likes':
     get:
       tags:
         - users
       description: Fetch User Info
       parameters:
-        - name: user_id
+        - name: custom_uid
           in: path
-          description: user id
+          description: custom_uid
           required: true
           schema:
             type: string
@@ -103,11 +104,69 @@ paths:
                   $ref: '#/components/schemas/Like'
                 example:
                   - id: 1
-                    user_id: ABCDEFGHIJKLMNOP
+                    custom_uid: tkugimot
                     post_id: 15
                   - id: 5
-                    user_id: ABCDEFGHIJKLMNOP
+                    custom_uid: tkugimot
                     post_id: 17
+
+  '/user/register':
+    post:
+      tags:
+        - users
+      description: Register User Info
+      parameters:
+        - name: jwt_token
+          in: header
+          description: user id
+          required: true
+          schema:
+            type: string
+        - name: custom_uid
+          in: header
+          description: custom_uid
+          required: true
+          schema:
+            type: string
+        - name: description
+          in: header
+          description: user description
+          required: false
+          schema:
+            type: string
+        - name: twitter_id
+          in: header
+          description: twitter id
+          required: false
+          schema:
+            type: string
+        - name: google_id
+          in: header
+          description: google id
+          required: false
+          schema:
+            type: string
+        - name: facebook_id
+          in: header
+          description: facebook id
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/User'
+                example:
+                  id: 1
+                  uid: ABCDEFGHIJKLMNOP
+                  custom_uid: tkugimot
+                  role: general
+                  created_at: 2019/05/05
 
   '/posts':
     get:
@@ -131,7 +190,7 @@ paths:
                     tags: [WebApp, iOSApp, AndroidApp]
                     created_at: 2019/05/05
                     updated_at: 2019/05/05
-                    uid: ABCDEFHIJKLMNOP
+                    custom_uid: tkugimot
                   - id: 2
                     sentence: AIUEO
                     img_url: img3.jp
@@ -139,9 +198,9 @@ paths:
                     tags: [WebApp, iOSApp, AndroidApp]
                     created_at: 2019/05/05
                     updated_at: 2019/05/05
-                    uid: KAKIKIKEKOATAA
+                    custom_uid: tkugimot02
 
-  '/post':
+  '/post/{post_id}':
     get:
       tags:
         - posts
@@ -170,9 +229,8 @@ paths:
                   tags: [WebApp, iOSApp, AndroidApp]
                   created_at: 2019/05/05
                   updated_at: 2019/05/05
-                  uid: ABCDEFHIJKLMNOP
-
-  '/post/likes':
+                  custom_uid: tkugimot
+  '/post/{post_id}/likes':
     get:
       tags:
         - tags
@@ -195,11 +253,61 @@ paths:
                   $ref: '#/components/schemas/Like'
                 example:
                   - id: 1
-                    user_id: ABCDEFGHIJKLMNOP
+                    custom_uid: tkugimot
                     post_id: 3
                   - id: 5
-                    user_id: AUDAVAEAFAEAFAFE
+                    custom_uid: tkugimot02
                     post_id: 3
+  '/post/create':
+    post:
+      tags:
+        - posts
+      description: Create post (and Update/Add User.post_ids)
+      parameters:
+        - name: sentence
+          in: header
+          description: sentence
+          required: true
+          schema:
+            type: string
+        - name: img_url
+          in: header
+          description: sentence
+          required: true
+          schema:
+            type: string
+        - name: jwt_token
+          in: header
+          description: jwt token
+          required: true
+          schema:
+            type: string
+        - name: tags
+          in: header
+          description: tags
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/Post'
+                example:
+                  id: 1
+                  sentence: I want the App that you can post and share what kind of App you want.
+                  img_url: img.jp
+                  liked_count: 11
+                  tags: [WebApp, iOSApp, AndroidApp]
+                  created_at: 2019/05/05
+                  updated_at: 2019/05/05
+                  custom_uid: tkugimot
 
 tags:
   - name: users
@@ -214,16 +322,39 @@ components:
       required:
         - id
         - uid
-        - dispname
+        - custom_uid
+        - twitter_id
+        - e_twitter_access_token
+        - google_id
+        - facebook_id
         - created_at
+        - post_ids
+        - role
+        - description
       properties:
         id:
           type: number
-        uid:
+        firebase_uid:
           type: string
-        dispname:
+        custom_uid:
+          type: string
+        twitter_id:
+          type: string
+        e_twitter_access_token:
+          type: string
+        google_id:
+          type: string
+        facebook_id:
           type: string
         created_at:
+          type: string
+        post_ids:
+          type: array
+          items:
+            type: number
+        role:
+          type: string
+        description:
           type: string
     Post:
       type: object
@@ -235,7 +366,7 @@ components:
         - tags
         - created_at
         - updated_at
-        - uid
+        - custom_uid
       properties:
         id:
           type: number
@@ -249,7 +380,7 @@ components:
           type: array
           items:
             type: string
-        uid:
+        custom_uid:
           type: string
         created_at:
           type: string
@@ -259,15 +390,15 @@ components:
       type: object
       required:
         - id
-        - uid
+        - custom_uid
         - post_id
         - created_at
         - updated_at
       properties:
         id:
           type: number
-        user_id:
-          type: number
+        custom_uid:
+          type: string
         post_id:
           type: number
         created_at:
