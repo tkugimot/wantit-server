@@ -6,11 +6,11 @@ info:
   termsOfService: http://example.com/terms/
   contact:
     name: Toshimitsu Kugimoto
-    url: ""
-    email: ""
+    url: url
+    email: test@yahoo.co.jp
   license:
     name: Toshimitsu Kugimoto
-    url: ""
+    url: tkugimot.jp
 paths:
   '/user':
     post:
