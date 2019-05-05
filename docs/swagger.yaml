@@ -3,14 +3,17 @@ info:
   version: 1.0.0
   title: WantIt API documents.
   description: Server side code for WantIt.
-  termsOfService: http://example.com/terms/
+  termsOfService: https://tkugimot.jp/terms
   contact:
     name: Toshimitsu Kugimoto
     url: url
     email: toshimitsu_kugimoto@yahoo.co.jp
   license:
     name: Toshimitsu Kugimoto
-    url: tkugimot.jp
+    url: https://tkugimot.jp
+servers:
+  - url: https://tkugimot.jp
+    description: Production Server
 paths:
   '/user':
     post:
