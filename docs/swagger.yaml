@@ -233,7 +233,7 @@ paths:
   '/post/{post_id}/likes':
     get:
       tags:
-        - tags
+        - posts
       description: Fetch Likes by post_id
       parameters:
         - name: post_id
