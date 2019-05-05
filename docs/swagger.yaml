@@ -16,7 +16,7 @@ servers:
     description: Production Server
 paths:
   '/user':
-    post:
+    get:
       tags:
         - users
       description: Fetch User Info
@@ -37,11 +37,80 @@ paths:
                 items:
                   $ref: '#/components/schemas/User'
                 example:
+                  id: 1
                   uid: ABCDEFGHIJKLMNOP
                   dispname: Toshi
                   created_at: 2019/05/05
+  '/user/posts':
+    get:
+      tags:
+        - users
+      description: Fetch Posts by User id
+      parameters:
+        - name: user_id
+          in: path
+          description: user id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Post'
+                example:
+                  - id: 1
+                    sentence: I want the App that you can post and share what kind of App you want.
+                    img_url: img.jp
+                    liked_count: 11
+                    tags: [WebApp, iOSApp, AndroidApp]
+                    created_at: 2019/05/05
+                    updated_at: 2019/05/05
+                    uid: ABCDEFHIJKLMNOP
+                  - id: 2
+                    sentence: Ups!
+                    img_url: img2.jp
+                    liked_count: 5
+                    tags: [WebApp, iOSApp, AndroidApp]
+                    created_at: 2019/05/05
+                    updated_at: 2019/05/05
+                    uid: ABCDEFHIJKLMNOP
+
+  '/user/likes':
+    get:
+      tags:
+        - users
+      description: Fetch User Info
+      parameters:
+        - name: user_id
+          in: path
+          description: user id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Like'
+                example:
+                  - id: 1
+                    user_id: ABCDEFGHIJKLMNOP
+                    post_id: 15
+                  - id: 5
+                    user_id: ABCDEFGHIJKLMNOP
+                    post_id: 17
+
   '/posts':
-    post:
+    get:
       tags:
         - posts
       description: Fetch All Posts by 10
@@ -53,7 +122,46 @@ paths:
               schema:
                 type: object
                 items:
-                  $ref: '#/components/schemas/User'
+                  $ref: '#/components/schemas/Post'
+                example:
+                  - id: 1
+                    sentence: I want the App that you can post and share what kind of App you want.
+                    img_url: img.jp
+                    liked_count: 11
+                    tags: [WebApp, iOSApp, AndroidApp]
+                    created_at: 2019/05/05
+                    updated_at: 2019/05/05
+                    uid: ABCDEFHIJKLMNOP
+                  - id: 2
+                    sentence: AIUEO
+                    img_url: img3.jp
+                    liked_count: 3
+                    tags: [WebApp, iOSApp, AndroidApp]
+                    created_at: 2019/05/05
+                    updated_at: 2019/05/05
+                    uid: KAKIKIKEKOATAA
+
+  '/post':
+    get:
+      tags:
+        - posts
+      description: Fetch post
+      parameters:
+        - name: post_id
+          in: path
+          description: user id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/Post'
                 example:
                   id: 1
                   sentence: I want the App that you can post and share what kind of App you want.
@@ -64,6 +172,35 @@ paths:
                   updated_at: 2019/05/05
                   uid: ABCDEFHIJKLMNOP
 
+  '/post/likes':
+    get:
+      tags:
+        - tags
+      description: Fetch Likes by post_id
+      parameters:
+        - name: post_id
+          in: path
+          description: post id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Like'
+                example:
+                  - id: 1
+                    user_id: ABCDEFGHIJKLMNOP
+                    post_id: 3
+                  - id: 5
+                    user_id: AUDAVAEAFAEAFAFE
+                    post_id: 3
+
 tags:
   - name: users
     description: Fetch Users
@@ -71,21 +208,23 @@ tags:
     description: Fetch Posts
 
 components:
-  schemas: # スキーマオブジェクトの定義
-    User: # モデル名
-      type: object # 型
-      required: # 必須フィールド
+  schemas:
+    User:
+      type: object
+      required:
+        - id
         - uid
         - dispname
         - created_at
       properties:
-        uid: # プロパティ名
-          type: string # 型
+        id:
+          type: number
+        uid:
+          type: string
         dispname:
           type: string
         created_at:
           type: string
-
     Post:
       type: object
       required:
@@ -116,4 +255,22 @@ components:
           type: string
         updated_at:
           type: string
-
+    Like:
+      type: object
+      required:
+        - id
+        - uid
+        - post_id
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: number
+        user_id:
+          type: number
+        post_id:
+          type: number
+        created_at:
+          type: string
+        updated_at:
+          type: string
