@@ -1,24 +1,28 @@
 swagger: '2.0'
 info:
   version: 1.0.0
-  title: タイトル
+  title: Server side code for WantIt
 paths:
-  '/user/{id}':
-    get:
-      description: ユーザー情報取得
+  '/user':
+    post:
+      description: Fetch User Info
       parameters:
         - name: id
           in: path
           description: user id
           required: true
-          type: number
+          type: string
       responses:
         '200':
-          description: 成功
+          description: Success
           schema:
             type: object
             properties:
-              id:
-                type: integer
-              username:
+              display-name:
                 type: string
+              post_ids:
+                type: array
+                items:
+                  type: number
+              created_at:
+                type: date
