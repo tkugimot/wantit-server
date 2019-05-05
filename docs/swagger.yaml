@@ -2,8 +2,32 @@ swagger: '2.0'
 info:
   version: 1.0.0
   title: Server side code for WantIt
+  description: A short description of API.
 paths:
   '/user':
+    post:
+      description: Fetch User Info
+      parameters:
+        - name: id
+          in: path
+          description: user id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: object
+            properties:
+              display-name:
+                type: string
+              post_ids:
+                type: array
+                items:
+                  type: number
+              created_at:
+                type: date
+  '/users':
     post:
       description: Fetch User Info
       parameters:
