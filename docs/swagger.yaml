@@ -1,8 +1,16 @@
 swagger: '2.0'
 info:
   version: 1.0.0
-  title: Server side code for WantIt
-  description: A short description of API.
+  title: WantIt API documents.
+  description: Server side code for WantIt.
+  termsOfService: http://example.com/terms/
+  contact:
+    name: Toshimitsu Kugimoto
+    url: null
+    email: null
+  license:
+    name: Toshimitsu Kugimoto
+    url: null
 paths:
   '/user':
     post:
